@@ -1,750 +1,862 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MycoMarket — Premium Mushrooms</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-:root{--cream:#f5f0e8;--brown:#3b2a1a;--mushroom:#8b6914;--sage:#6b7c5c;--terracotta:#c4622d;--light-sage:#d4dbc8;--white:#fefcf8;--shadow:rgba(59,42,26,0.12)}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth}
-body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;overflow-x:hidden}
-@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
-@keyframes spin{to{transform:rotate(360deg)}}
-@keyframes glow{0%,100%{box-shadow:0 0 4px #4caf5088}50%{box-shadow:0 0 10px #4caf5099}}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>MycoMarket — Artisanal Mushrooms</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-/* HEADER */
-header{background:var(--brown);color:var(--cream);padding:0 5vw;display:flex;align-items:center;justify-content:space-between;height:68px;position:sticky;top:0;z-index:100;box-shadow:0 2px 20px rgba(0,0,0,0.3)}
-.logo{font-family:'Playfair Display',serif;font-size:1.6rem;letter-spacing:.02em;display:flex;align-items:center;gap:.4rem}
-.logo span{color:var(--mushroom)}.logo em{font-style:normal;color:#c9a84c}
-.header-right{display:flex;align-items:center;gap:12px}
-.db-pill{font-size:.75rem;display:flex;align-items:center;gap:5px;background:rgba(255,255,255,.08);padding:4px 10px;border-radius:50px;color:var(--light-sage);transition:background .3s}
-.db-dot{width:8px;height:8px;border-radius:50%;background:#888;transition:background .4s;flex-shrink:0}
-.db-dot.connected{background:#4caf50;animation:glow 2s infinite}
-.db-dot.error{background:var(--terracotta)}
-.cart-btn{background:var(--mushroom);color:var(--white);border:none;padding:.55rem 1.2rem;border-radius:50px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:500;display:flex;align-items:center;gap:.5rem;transition:background .2s,transform .15s;position:relative}
-.cart-btn:hover{background:#a07a1a;transform:scale(1.04)}
-.cart-count{background:var(--terracotta);color:#fff;border-radius:50%;width:20px;height:20px;font-size:.72rem;display:flex;align-items:center;justify-content:center;font-weight:700;position:absolute;top:-6px;right:-6px}
+    :root {
+      --cream: #fef7e8;
+      --brown: #2c221b;
+      --mushroom: #b57c1c;
+      --sage: #6f7c5f;
+      --terracotta: #c17b4c;
+      --light-sage: #e2e6d9;
+      --white: #ffffff;
+      --shadow-sm: 0 8px 20px rgba(0,0,0,0.05);
+      --shadow-md: 0 12px 28px rgba(0,0,0,0.08);
+      --transition: all 0.25s ease;
+    }
 
-/* HERO */
-.hero{background:linear-gradient(135deg,var(--brown) 0%,#5a3d22 60%,var(--sage) 100%);color:var(--cream);padding:80px 5vw 90px;position:relative;overflow:hidden;text-align:center}
-.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");pointer-events:none}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,4rem);line-height:1.15;margin-bottom:1rem;animation:fadeUp .8s ease both}
-.hero h1 em{font-style:italic;color:#c9a84c}
-.hero p{font-size:1.1rem;opacity:.82;max-width:520px;margin:0 auto 2rem;line-height:1.7;animation:fadeUp .8s .15s ease both}
-.hero-cta{background:#c9a84c;color:var(--brown);border:none;padding:.85rem 2.2rem;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;animation:fadeUp .8s .3s ease both;transition:transform .2s,box-shadow .2s}
-.hero-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(201,168,76,.4)}
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--brown);
+      overflow-x: hidden;
+    }
 
-/* HOW IT WORKS */
-.how-it-works{background:var(--brown);color:var(--cream);padding:60px 5vw;text-align:center}
-.how-it-works .section-title{color:var(--cream);margin-top:0}
-.how-it-works .section-sub{color:var(--light-sage)}
-.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:24px;max-width:1000px;margin:0 auto}
-.step-card{padding:24px 18px;background:rgba(255,255,255,.06);border-radius:16px;border:1px solid rgba(255,255,255,.08)}
-.step-card .step-icon{font-size:2.2rem;margin-bottom:10px}
-.step-card h3{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:6px;color:#c9a84c}
-.step-card p{font-size:.82rem;opacity:.75;line-height:1.6}
+    /* Navigation */
+    .navbar {
+      background: var(--brown);
+      padding: 0 5vw;
+      height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(0px);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.2);
+    }
 
-/* SECTION */
-.section-title{font-family:'Playfair Display',serif;font-size:2rem;text-align:center;margin:60px 0 8px;color:var(--brown)}
-.section-sub{text-align:center;color:var(--sage);margin-bottom:36px;font-size:.95rem}
+    .logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.7rem;
+      font-weight: 600;
+      color: var(--cream);
+      letter-spacing: -0.3px;
+    }
+    .logo span { color: var(--mushroom); }
+    .logo i { font-style: normal; color: #e7b85e; }
 
-/* PRODUCTS */
-.products{padding:0 5vw 60px}
-.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:28px;max-width:1200px;margin:0 auto}
-.product-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 4px 20px var(--shadow);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;animation:fadeUp .6s ease both;position:relative}
-.product-card:hover{transform:translateY(-6px);box-shadow:0 12px 36px var(--shadow)}
-.in-cart-badge{position:absolute;top:12px;right:12px;background:var(--mushroom);color:#fff;font-size:.72rem;font-weight:700;padding:3px 10px;border-radius:50px;display:none}
-.product-card.has-items .in-cart-badge{display:block}
-.product-img{width:100%;height:200px;display:flex;align-items:center;justify-content:center;font-size:5rem;background:linear-gradient(135deg,#e8dfc8 0%,#d4c9a8 100%)}
-.product-body{padding:18px 20px 20px;flex:1;display:flex;flex-direction:column}
-.product-tag{background:var(--light-sage);color:var(--sage);font-size:.72rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;padding:3px 10px;border-radius:50px;display:inline-block;margin-bottom:8px}
-.product-name{font-family:'Playfair Display',serif;font-size:1.15rem;margin-bottom:6px;color:var(--brown)}
-.product-desc{font-size:.85rem;color:#6b5740;line-height:1.6;flex:1}
-.product-footer{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
-.product-price{font-size:1.25rem;font-weight:700;color:var(--mushroom)}
-.product-price small{font-size:.72rem;color:#999;font-weight:400}
-.add-btn{background:var(--brown);color:var(--cream);border:none;padding:.5rem 1.1rem;border-radius:50px;cursor:pointer;font-size:.85rem;font-weight:500;transition:background .2s,transform .15s;font-family:'DM Sans',sans-serif}
-.add-btn:hover,.product-card.has-items .add-btn{background:var(--mushroom)}
-.add-btn:hover{transform:scale(1.05)}
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+    .nav-links a {
+      color: #e9e2d4;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+    }
+    .nav-links a:hover, .nav-links a.active {
+      color: var(--mushroom);
+    }
+    .cart-icon {
+      background: rgba(255,255,255,0.08);
+      border-radius: 40px;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+      color: var(--cream);
+    }
+    .cart-icon i { font-size: 1.2rem; }
+    .cart-count {
+      background: var(--terracotta);
+      border-radius: 30px;
+      padding: 2px 8px;
+      font-size: 0.75rem;
+      font-weight: bold;
+    }
+    .db-status {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.06);
+      padding: 5px 12px;
+      border-radius: 40px;
+      font-size: 0.7rem;
+      color: #cdc6b8;
+    }
+    .db-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ffaa44;
+    }
+    .db-dot.live { background: #4caf50; box-shadow: 0 0 6px #4caf50; }
 
-/* TOAST */
-.toast{position:fixed;bottom:30px;right:30px;background:var(--sage);color:#fff;padding:12px 22px;border-radius:50px;font-size:.9rem;font-weight:500;box-shadow:0 4px 20px rgba(0,0,0,.2);transform:translateY(100px);opacity:0;transition:all .35s cubic-bezier(.34,1.56,.64,1);z-index:999;pointer-events:none;max-width:320px}
-.toast.show{transform:translateY(0);opacity:1}
-.toast.success{background:#388e3c}
-.toast.error{background:var(--terracotta)}
+    /* Pages container */
+    .page {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+    .active-page {
+      display: block;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
 
-/* MODAL OVERLAY */
-.overlay{position:fixed;inset:0;background:rgba(20,13,7,.65);z-index:200;display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
-.overlay.open{opacity:1;pointer-events:all}
-.modal{background:var(--white);border-radius:28px 28px 0 0;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;padding:32px 28px 40px;transform:translateY(100%);transition:transform .4s cubic-bezier(.34,1.2,.64,1)}
-.overlay.open .modal{transform:translateY(0)}
-.modal-handle{width:40px;height:4px;background:#ddd;border-radius:4px;margin:0 auto 24px}
-.modal-title{font-family:'Playfair Display',serif;font-size:1.6rem;margin-bottom:20px;color:var(--brown)}
+    /* Hero */
+    .hero {
+      background: linear-gradient(115deg, #2a241f 0%, #3f3226 100%);
+      color: white;
+      padding: 80px 5vw 100px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      max-width: 550px;
+      margin: 0 auto 2rem;
+      opacity: 0.85;
+    }
+    .btn-primary {
+      background: var(--mushroom);
+      border: none;
+      padding: 12px 32px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+      transition: var(--transition);
+      font-size: 1rem;
+    }
+    .btn-primary:hover {
+      background: #cf8f2a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(181,124,28,0.3);
+    }
 
-/* CART ITEMS */
-.cart-item{display:flex;align-items:center;gap:14px;padding:14px 0;border-bottom:1px solid #eee;animation:fadeUp .3s ease}
-.cart-item-icon{font-size:2rem;width:48px;text-align:center}
-.cart-item-info{flex:1}
-.cart-item-info strong{font-size:.95rem}
-.cart-item-info span{font-size:.82rem;color:#888}
-.cart-item-qty{display:flex;align-items:center;gap:8px}
-.qty-btn{width:28px;height:28px;border-radius:50%;border:1.5px solid var(--brown);background:none;cursor:pointer;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;transition:background .15s,color .15s;font-family:'DM Sans',sans-serif}
-.qty-btn:hover{background:var(--brown);color:var(--cream)}
-.item-price{font-weight:700;color:var(--mushroom);min-width:60px;text-align:right}
-.remove-btn{background:none;border:none;cursor:pointer;color:#bbb;font-size:1.1rem;padding:4px;transition:color .15s}
-.remove-btn:hover{color:var(--terracotta)}
-.cart-empty{text-align:center;padding:40px 0;color:#aaa;font-size:1rem;line-height:2}
-.cart-total{display:flex;justify-content:space-between;align-items:center;padding:18px 0 0;font-size:1.1rem;font-weight:700;color:var(--brown)}
-.cart-total span{color:var(--mushroom);font-size:1.3rem}
-.checkout-btn{width:100%;background:var(--mushroom);color:var(--white);border:none;padding:1rem;border-radius:14px;font-size:1rem;font-weight:600;cursor:pointer;margin-top:18px;font-family:'DM Sans',sans-serif;transition:background .2s,transform .15s}
-.checkout-btn:hover{background:#a07a1a;transform:scale(1.01)}
-.checkout-btn:disabled{background:#ccc;cursor:not-allowed;transform:none}
+    /* Section */
+    .section-header {
+      text-align: center;
+      margin: 60px 0 30px;
+    }
+    .section-header h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+    }
+    .section-header p {
+      color: var(--sage);
+    }
 
-/* CHECKOUT STEP TABS */
-.steps-bar{display:flex;margin-bottom:28px}
-.step-tab{flex:1;text-align:center;font-size:.78rem;font-weight:600;padding:8px 4px;color:#bbb;border-bottom:2px solid #eee;transition:all .2s;cursor:default;letter-spacing:.05em;text-transform:uppercase}
-.step-tab.active{color:var(--mushroom);border-color:var(--mushroom)}
-.step-tab.done{color:var(--sage);border-color:var(--sage)}
-.checkout-step{display:none}
-.checkout-step.active{display:block;animation:fadeUp .4s ease}
+    /* Product grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+      gap: 28px;
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 5vw 60px;
+    }
+    .product-card {
+      background: var(--white);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: var(--transition);
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-md);
+    }
+    .product-img {
+      height: 210px;
+      background-size: cover;
+      background-position: center;
+      position: relative;
+    }
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(4px);
+      padding: 4px 10px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: white;
+    }
+    .product-info {
+      padding: 18px;
+    }
+    .product-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+    }
+    .product-price {
+      font-weight: 700;
+      color: var(--mushroom);
+      font-size: 1.2rem;
+      margin: 8px 0;
+    }
+    .add-to-cart-btn {
+      background: var(--brown);
+      color: white;
+      border: none;
+      padding: 8px 0;
+      width: 100%;
+      border-radius: 40px;
+      font-weight: 500;
+      margin-top: 12px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .add-to-cart-btn:hover {
+      background: var(--mushroom);
+    }
 
-/* FORM */
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-.form-group{margin-bottom:16px}
-.form-group label{display:block;font-size:.8rem;font-weight:600;color:var(--brown);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
-.form-group input,.form-group select,.form-group textarea{width:100%;padding:11px 14px;border:1.5px solid #ddd;border-radius:10px;font-size:.95rem;font-family:'DM Sans',sans-serif;background:var(--white);color:var(--brown);transition:border-color .2s,box-shadow .2s;outline:none}
-.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--mushroom);box-shadow:0 0 0 3px rgba(139,105,20,.12)}
-.form-group textarea{resize:vertical;min-height:80px}
+    /* Steps */
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      max-width: 1000px;
+      margin: 0 auto 60px;
+      padding: 0 5vw;
+    }
+    .step {
+      background: white;
+      padding: 28px 20px;
+      border-radius: 32px;
+      text-align: center;
+      flex: 1;
+      min-width: 180px;
+      box-shadow: var(--shadow-sm);
+    }
+    .step i { font-size: 2.2rem; color: var(--mushroom); margin-bottom: 12px; display: block; }
 
-/* ORDER SUMMARY */
-.order-summary{background:#f9f5ee;border-radius:14px;padding:16px 18px;margin-bottom:20px}
-.order-summary h4{font-family:'Playfair Display',serif;margin-bottom:12px;font-size:1rem}
-.summary-item{display:flex;justify-content:space-between;font-size:.88rem;margin-bottom:6px;color:#5a4530}
-.summary-total{display:flex;justify-content:space-between;font-weight:700;color:var(--brown);border-top:1px solid #e0d8c8;padding-top:10px;margin-top:8px;font-size:1rem}
+    /* Modal cart + checkout */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
+      z-index: 2000;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: 0.2s;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-container {
+      background: white;
+      width: 100%;
+      max-width: 550px;
+      max-height: 90vh;
+      border-radius: 32px 32px 0 0;
+      overflow-y: auto;
+      padding: 24px 22px 32px;
+      transform: translateY(100%);
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .modal-overlay.open .modal-container {
+      transform: translateY(0);
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .cart-item img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      object-fit: cover;
+    }
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      background: #2c2c2c;
+      color: white;
+      padding: 10px 24px;
+      border-radius: 60px;
+      z-index: 2100;
+      transition: 0.2s;
+      opacity: 0;
+      pointer-events: none;
+    }
+    .toast-msg.show {
+      transform: translateX(-50%) translateY(0);
+      opacity: 1;
+    }
 
-/* PAYMENT OPTIONS */
-.payment-option{display:flex;align-items:center;gap:12px;border:1.5px solid #ddd;border-radius:12px;padding:14px 16px;cursor:pointer;margin-bottom:12px;transition:border-color .2s,background .2s}
-.payment-option.selected{border-color:var(--mushroom);background:#fdf7e8}
-.payment-option input[type=radio]{accent-color:var(--mushroom);width:18px;height:18px}
-.payment-option-label{font-size:.9rem}
-.payment-option-label strong{display:block}
-.payment-option-label small{color:#999}
-.payment-icon{font-size:1.6rem}
-
-/* SUCCESS */
-.success-screen{text-align:center;padding:20px 0;animation:fadeUp .5s ease}
-.success-icon{font-size:4rem;margin-bottom:16px}
-.success-screen h2{font-family:'Playfair Display',serif;font-size:1.8rem;margin-bottom:10px;color:var(--brown)}
-.success-screen p{color:#6b5740;line-height:1.7;margin-bottom:16px}
-.db-saved-badge{background:#e8f5e9;color:#2e7d32;font-size:.82rem;padding:6px 16px;border-radius:50px;display:none;margin-bottom:20px;font-weight:500}
-.whatsapp-btn{background:#25D366;color:#fff;border:none;padding:1rem 2rem;border-radius:50px;font-size:1rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:10px;transition:background .2s,transform .15s;box-shadow:0 4px 20px rgba(37,211,102,.35)}
-.whatsapp-btn:hover{background:#1db954;transform:scale(1.04)}
-.order-id{font-size:.8rem;color:#999;margin-top:12px}
-
-/* NAV BUTTONS */
-.nav-btns{display:flex;gap:10px;margin-top:20px}
-.back-btn{flex:1;background:#f0ebe0;border:none;padding:.85rem;border-radius:12px;color:var(--brown);font-size:.9rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
-.back-btn:hover{background:#e0d8c8}
-.next-btn{flex:2;background:var(--mushroom);border:none;padding:.85rem;border-radius:12px;color:var(--white);font-size:.95rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;display:flex;align-items:center;justify-content:center;gap:8px}
-.next-btn:hover{background:#a07a1a}
-.next-btn:disabled{background:#ccc;cursor:not-allowed}
-.spinner{width:16px;height:16px;border:2px solid rgba(255,255,255,.4);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;display:none}
-.next-btn.loading .spinner{display:block}
-.next-btn.loading .btn-text{display:none}
-
-/* FOOTER */
-footer{background:var(--brown);color:var(--light-sage);text-align:center;padding:28px 5vw;font-size:.85rem}
-footer a{color:#c9a84c;text-decoration:none}
-
-@media(max-width:480px){.form-row{grid-template-columns:1fr}.modal{padding:24px 18px 32px}.hero h1{font-size:2rem}.db-pill{display:none}}
-</style>
+    /* Responsive */
+    @media (max-width: 720px) {
+      .nav-links { gap: 1rem; }
+      .db-status span { display: none; }
+      .cart-icon span:first-child { display: none; }
+    }
+    footer {
+      background: var(--brown);
+      color: #b9ae9a;
+      text-align: center;
+      padding: 32px 5vw;
+      margin-top: 40px;
+    }
+    .filter-bar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+    .filter-chip {
+      background: #e9e2d4;
+      padding: 6px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+    .filter-chip.active, .filter-chip:hover {
+      background: var(--mushroom);
+      color: white;
+    }
+    .loading-spinner {
+      text-align: center;
+      padding: 60px;
+      color: var(--sage);
+    }
+    .whatsapp-btn {
+      background: #25D366;
+      color: white;
+      border: none;
+      border-radius: 40px;
+      padding: 12px 20px;
+      font-weight: bold;
+      width: 100%;
+      margin-top: 16px;
+    }
+  </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">🍄 <span>Myco</span><em>Market</em></div>
-  <div class="header-right">
-    <div class="db-pill">
-      <div class="db-dot" id="dbDot"></div>
-      <span id="dbLabel">Connecting…</span>
-    </div>
-    <button class="cart-btn" onclick="openCart()">
-      🛒 Cart
-      <span class="cart-count" id="cartCount">0</span>
-    </button>
+<nav class="navbar">
+  <div class="logo"><span>Myco</span><i>Market</i></div>
+  <div class="nav-links">
+    <a href="#" data-page="home" class="nav-link active">Home</a>
+    <a href="#" data-page="shop" class="nav-link">Shop</a>
+    <a href="#" data-page="about" class="nav-link">About</a>
+    <a href="#" data-page="contact" class="nav-link">Contact</a>
+    <div class="db-status"><div class="db-dot" id="dbStatusDot"></div><span id="dbStatusText">Connecting</span></div>
+    <div class="cart-icon" id="cartIconBtn"><i class="fas fa-shopping-bag"></i> <span>Cart</span> <span class="cart-count" id="cartCount">0</span></div>
   </div>
-</header>
+</nav>
 
-<!-- HERO -->
-<section class="hero">
-  <h1>Nature's Finest<br><em>Mushrooms</em> Delivered</h1>
-  <p>Farm-fresh, gourmet, and medicinal mushrooms handpicked from certified organic farms — delivered straight to your door.</p>
-  <button class="hero-cta" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now ↓</button>
-</section>
-
-<!-- HOW IT WORKS -->
-<section class="how-it-works">
-  <h2 class="section-title">How It Works</h2>
-  <p class="section-sub">Simple steps, fresh mushrooms</p>
-  <div class="steps-grid">
-    <div class="step-card"><div class="step-icon">🛒</div><h3>Browse & Add</h3><p>Explore our curated mushroom selection and add your favourites to the cart.</p></div>
-    <div class="step-card"><div class="step-icon">📝</div><h3>Fill Details</h3><p>Enter your name, phone, and delivery address in our quick checkout form.</p></div>
-    <div class="step-card"><div class="step-icon">💾</div><h3>Saved in Real Time</h3><p>Your order is instantly saved to our live database the moment you place it.</p></div>
-    <div class="step-card"><div class="step-icon">💬</div><h3>WhatsApp Alert</h3><p>We get notified on WhatsApp instantly and confirm your order.</p></div>
-    <div class="step-card"><div class="step-icon">🚚</div><h3>Fresh Delivery</h3><p>We pack and deliver within 24–48 hours, fresh from the farm.</p></div>
+<!-- HOME PAGE -->
+<div id="page-home" class="page active-page">
+  <div class="hero">
+    <h1>Nature’s Finest <i style="color:#c9a84c">Mushrooms</i><br> Farm to Table</h1>
+    <p>Premium gourmet & medicinal mushrooms, sustainably cultivated. Real-time orders, instant WhatsApp confirmation.</p>
+    <button class="btn-primary" id="heroShopBtn">Explore Collection →</button>
   </div>
-</section>
+  <div class="section-header"><h2>How It Works</h2><p>Simple, fresh, and connected</p></div>
+  <div class="steps">
+    <div class="step"><i class="fas fa-seedling"></i><h3>1. Pick Mushrooms</h3><p>Choose from 12+ varieties with real images</p></div>
+    <div class="step"><i class="fas fa-shopping-cart"></i><h3>2. Add to Cart</h3><p>Easy checkout flow</p></div>
+    <div class="step"><i class="fas fa-database"></i><h3>3. Live Database</h3><p>Orders saved to Supabase instantly</p></div>
+    <div class="step"><i class="fab fa-whatsapp"></i><h3>4. WhatsApp Alert</h3><p>We confirm within minutes</p></div>
+  </div>
+  <div class="section-header"><h2>✨ Featured Mushrooms</h2><p>Handpicked by our mycologists</p></div>
+  <div class="product-grid" id="featuredGrid"></div>
+</div>
 
-<!-- PRODUCTS -->
-<section class="products" id="products">
-  <h2 class="section-title">Our Collection</h2>
-  <p class="section-sub">Grown with care, harvested with love</p>
-  <div class="product-grid" id="productGrid"></div>
-</section>
+<!-- SHOP PAGE -->
+<div id="page-shop" class="page">
+  <div class="section-header" style="margin-top: 40px;"><h2>Our Full Collection</h2><p>Fresh harvest, organic certification</p></div>
+  <div class="filter-bar" id="filterBar"></div>
+  <div class="product-grid" id="shopGrid"></div>
+</div>
 
-<!-- FOOTER -->
-<footer>
-  <p>🍄 MycoMarket &mdash; Premium Mushrooms &nbsp;|&nbsp; <a href="#">Terms</a> &nbsp;|&nbsp; <a href="#">Privacy</a></p>
-  <p style="margin-top:6px;opacity:.6">Orders saved to database in real time. Confirmed via WhatsApp.</p>
-</footer>
+<!-- ABOUT PAGE -->
+<div id="page-about" class="page">
+  <div class="section-header" style="margin-top: 50px;"><h2>Rooted in Passion</h2><p>MycoMarket — Where fungi meets future</p></div>
+  <div style="max-width: 800px; margin: 0 auto; padding: 20px 5vw; line-height: 1.7; text-align: center;">
+    <p>We partner with small organic farms across India to bring you the freshest mushrooms — from earthy shiitake to rare Lion’s Mane. Every order is tracked, saved in real-time to our Supabase backend, and instantly shared via WhatsApp for lightning-fast dispatch.</p>
+    <p style="margin-top: 20px;"><i class="fas fa-leaf"></i> 100% chemical-free &nbsp;|&nbsp; <i class="fas fa-truck"></i> 24-48h delivery &nbsp;|&nbsp; <i class="fas fa-chart-line"></i> Real-time DB</p>
+  </div>
+</div>
 
-<!-- TOAST -->
-<div class="toast" id="toast"></div>
+<!-- CONTACT PAGE -->
+<div id="page-contact" class="page">
+  <div class="section-header" style="margin-top: 50px;"><h2>Let's Talk Fungi</h2><p>Reach out for bulk orders or farm visits</p></div>
+  <div style="max-width: 500px; margin: 0 auto; background: white; border-radius: 32px; padding: 30px; box-shadow: var(--shadow-sm);">
+    <p><i class="fas fa-phone-alt"></i> +91 95816 16566</p>
+    <p><i class="fab fa-whatsapp"></i> WhatsApp same number</p>
+    <p><i class="fas fa-envelope"></i> hello@mycomarket.in</p>
+    <p><i class="fas fa-map-marker-alt"></i> Hyderabad, India — shipping nationwide</p>
+    <button class="btn-primary" style="margin-top: 20px; width:100%" id="waContactBtn"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</button>
+  </div>
+</div>
 
-<!-- MODAL OVERLAY -->
-<div class="overlay" id="overlay" onclick="handleOverlayClick(event)">
-  <div class="modal" id="modal">
-    <div class="modal-handle"></div>
+<!-- CART MODAL -->
+<div class="modal-overlay" id="cartModal">
+  <div class="modal-container">
+    <div style="display: flex; justify-content: space-between; align-items: center;"><h2>🛒 Your Cart</h2><i class="fas fa-times" id="closeCartBtn" style="font-size: 1.5rem; cursor:pointer;"></i></div>
+    <div id="cartItemsList"></div>
+    <div style="margin-top: 20px; font-weight: 700; display: flex; justify-content: space-between;"><span>Total</span><span id="modalTotal">₹0</span></div>
+    <button class="btn-primary" id="proceedCheckoutBtn" style="width:100%; margin-top: 20px;" disabled>Proceed to Checkout</button>
+  </div>
+</div>
 
-    <!-- CART -->
-    <div id="cartView">
-      <h2 class="modal-title">Your Cart 🛒</h2>
-      <div id="cartItems"></div>
-      <div class="cart-total" id="cartTotal" style="display:none">
-        <span>Total</span><span id="totalAmount">₹0</span>
-      </div>
-      <button class="checkout-btn" id="proceedBtn" onclick="startCheckout()" disabled>Proceed to Checkout →</button>
-    </div>
+<!-- CHECKOUT MODAL (multi-step) -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal-container">
+    <div style="display: flex; justify-content: space-between;"><h2>Secure Checkout</h2><i class="fas fa-times" id="closeCheckoutBtn" style="cursor:pointer;"></i></div>
+    <div id="checkoutSteps"></div>
+    <div id="checkoutContent"></div>
+  </div>
+</div>
 
-    <!-- CHECKOUT -->
-    <div id="checkoutView" style="display:none">
-      <h2 class="modal-title">Checkout</h2>
-      <div class="steps-bar">
-        <div class="step-tab active" id="tab1">1 · Info</div>
-        <div class="step-tab" id="tab2">2 · Address</div>
-        <div class="step-tab" id="tab3">3 · Payment</div>
-        <div class="step-tab" id="tab4">4 · Review</div>
-      </div>
-
-      <!-- STEP 1 -->
-      <div class="checkout-step active" id="step1">
-        <div class="form-group">
-          <label>Full Name *</label>
-          <input type="text" id="fname" placeholder="e.g. Priya Sharma">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>WhatsApp Number *</label>
-            <input type="tel" id="fphone" placeholder="+91 98765 43210">
-          </div>
-          <div class="form-group">
-            <label>Email (optional)</label>
-            <input type="email" id="femail" placeholder="you@email.com">
-          </div>
-        </div>
-        <div class="nav-btns">
-          <button class="back-btn" onclick="closeCheckout()">← Back to Cart</button>
-          <button class="next-btn" onclick="goStep(2)"><span class="btn-text">Next: Address →</span><div class="spinner"></div></button>
-        </div>
-      </div>
-
-      <!-- STEP 2 -->
-      <div class="checkout-step" id="step2">
-        <div class="form-group">
-          <label>Street Address *</label>
-          <input type="text" id="fstreet" placeholder="Plot 12, Lane 4…">
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>City *</label>
-            <input type="text" id="fcity" placeholder="Hyderabad">
-          </div>
-          <div class="form-group">
-            <label>PIN Code *</label>
-            <input type="text" id="fpin" placeholder="500001">
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Delivery Notes</label>
-          <textarea id="fnotes" placeholder="Gate code, landmark, preferred time…"></textarea>
-        </div>
-        <div class="nav-btns">
-          <button class="back-btn" onclick="goStep(1)">← Back</button>
-          <button class="next-btn" onclick="goStep(3)"><span class="btn-text">Next: Payment →</span><div class="spinner"></div></button>
-        </div>
-      </div>
-
-      <!-- STEP 3 -->
-      <div class="checkout-step" id="step3">
-        <p style="font-size:.88rem;color:#888;margin-bottom:18px">Payment collected on delivery or via UPI before dispatch.</p>
-        <label class="payment-option selected" id="pay-cod" onclick="selectPayment('cod')">
-          <input type="radio" name="payment" value="cod" checked>
-          <span class="payment-icon">💵</span>
-          <span class="payment-option-label"><strong>Cash on Delivery</strong><small>Pay when your mushrooms arrive</small></span>
-        </label>
-        <label class="payment-option" id="pay-upi" onclick="selectPayment('upi')">
-          <input type="radio" name="payment" value="upi">
-          <span class="payment-icon">📲</span>
-          <span class="payment-option-label"><strong>UPI / Bank Transfer</strong><small>We'll share QR code on WhatsApp</small></span>
-        </label>
-        <label class="payment-option" id="pay-wallet" onclick="selectPayment('wallet')">
-          <input type="radio" name="payment" value="wallet">
-          <span class="payment-icon">👛</span>
-          <span class="payment-option-label"><strong>Paytm / PhonePe</strong><small>Send to our registered number</small></span>
-        </label>
-        <div class="nav-btns">
-          <button class="back-btn" onclick="goStep(2)">← Back</button>
-          <button class="next-btn" onclick="goStep(4)"><span class="btn-text">Review Order →</span><div class="spinner"></div></button>
-        </div>
-      </div>
-
-      <!-- STEP 4 -->
-      <div class="checkout-step" id="step4">
-        <div class="order-summary">
-          <h4>🍄 Order Summary</h4>
-          <div id="reviewItems"></div>
-          <div class="summary-total"><span>Grand Total</span><span id="reviewTotal">₹0</span></div>
-        </div>
-        <div class="order-summary" style="margin-bottom:0">
-          <h4>📋 Your Details</h4>
-          <div id="reviewDetails" style="font-size:.88rem;color:#5a4530;line-height:1.8"></div>
-        </div>
-        <div class="nav-btns" style="margin-top:18px">
-          <button class="back-btn" onclick="goStep(3)">← Edit</button>
-          <button class="next-btn" id="placeOrderBtn" onclick="placeOrder()" style="background:#25D366">
-            <span class="btn-text">📲 Place Order on WhatsApp</span>
-            <div class="spinner"></div>
-          </button>
-        </div>
-      </div>
-
-      <!-- STEP 5 SUCCESS -->
-      <div class="checkout-step" id="step5">
-        <div class="success-screen">
-          <div class="success-icon">🎉</div>
-          <h2>Order Placed!</h2>
-          <p>Your order has been saved to our live database and sent to WhatsApp. We'll confirm shortly!</p>
-          <div class="db-saved-badge" id="dbSavedBadge">✅ Saved to database in real time</div>
-          <button class="whatsapp-btn" id="openWhatsApp">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-            Open WhatsApp
-          </button>
-          <p class="order-id" id="orderIdText"></p>
-          <div class="nav-btns" style="margin-top:24px">
-            <button class="next-btn" style="background:var(--brown)" onclick="resetAll()">Continue Shopping</button>
-          </div>
-        </div>
-      </div>
-
-    </div><!-- end checkoutView -->
-  </div><!-- end modal -->
-</div><!-- end overlay -->
+<div id="toastMsg" class="toast-msg"></div>
 
 <script>
-// ════════════════════════════════════════════════════════
-// SUPABASE — YOUR CORRECT ANON KEY (already inserted)
-// ════════════════════════════════════════════════════════
-const SUPABASE_URL = 'https://ekxyvuvmuhzhgzslefys.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVreHl2dXZtdWh6aGd6c2xlZnlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MDY5ODksImV4cCI6MjA4OTQ4Mjk4OX0.xLUbGWONyUfPESMAyScxTNnnel4nQznOY23gBBw1zNI';
+  // ========== SUPABASE CONFIG ==========
+  const SUPABASE_URL = 'https://ekxyvuvmuhzhgzslefys.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVreHl2dXZtdWh6aGd6c2xlZnlzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MDY5ODksImV4cCI6MjA4OTQ4Mjk4OX0.xLUbGWONyUfPESMAyScxTNnnel4nQznOY23gBBw1zNI';
+  const WA_NUM = '919581616566';  // +91 9581616566
 
-// -------------------------------------------------------------------
-// IMPORTANT: The table "orders" must exist in your Supabase project.
-// Run this SQL in the Supabase SQL editor:
-//
-// CREATE TABLE orders (
-//   id BIGSERIAL PRIMARY KEY,
-//   order_id TEXT,
-//   customer_name TEXT,
-//   phone TEXT,
-//   email TEXT,
-//   address TEXT,
-//   city TEXT,
-//   pin TEXT,
-//   notes TEXT,
-//   items JSONB,
-//   total NUMERIC,
-//   payment_method TEXT,
-//   status TEXT,
-//   created_at TIMESTAMPTZ DEFAULT NOW()
-// );
-//
-// ALTER TABLE orders ENABLE ROW LEVEL SECURITY;
-// CREATE POLICY "anon_insert" ON orders FOR INSERT TO anon WITH CHECK (true);
-// -------------------------------------------------------------------
+  // Global state
+  let products = [];        // from supabase products table
+  let cart = [];            // { id, qty }
+  let currentStep = 1;
+  let paymentMethod = 'cod';
+  let formData = { name: '', phone: '', email: '', address: '', city: '', pincode: '', notes: '' };
+  
+  // Helper: API calls
+  async function fetchProducts() {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/products?select=*&order=id`, {
+        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+      });
+      if (!res.ok) throw new Error('Products fetch failed');
+      const data = await res.json();
+      if (data.length === 0) throw new Error('No products, run SQL to create products table');
+      products = data;
+      renderAllProductUI();
+    } catch (err) {
+      console.error(err);
+      toast('⚠️ Could not load products. Check if "products" table exists.', true);
+    }
+  }
 
-async function dbInsert(table, data) {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, {
+  async function insertOrder(orderData) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/orders`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Prefer': 'return=minimal'
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        Prefer: 'return=minimal'
       },
-      body: JSON.stringify(data)
+      body: JSON.stringify(orderData)
     });
+    if (!res.ok) throw new Error('DB insert failed');
+    return true;
+  }
 
-    if (!res.ok) {
-      const errText = await res.text();
-      throw new Error(`HTTP ${res.status}: ${errText}`);
+  // Cart helpers
+  function updateCartCount() {
+    const totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
+    document.getElementById('cartCount').innerText = totalQty;
+  }
+
+  function getCartTotal() {
+    return cart.reduce((sum, item) => {
+      const prod = products.find(p => p.id === item.id);
+      return sum + (prod ? prod.price * item.qty : 0);
+    }, 0);
+  }
+
+  function addToCart(productId) {
+    const existing = cart.find(i => i.id === productId);
+    if (existing) existing.qty++;
+    else cart.push({ id: productId, qty: 1 });
+    updateCartCount();
+    renderCartModal();
+    toast(`🍄 ${products.find(p=>p.id===productId)?.name} added`);
+  }
+
+  function renderCartModal() {
+    const container = document.getElementById('cartItemsList');
+    if (!container) return;
+    if (cart.length === 0) {
+      container.innerHTML = '<div style="text-align:center; padding:40px">Cart empty 🧺</div>';
+      document.getElementById('proceedCheckoutBtn').disabled = true;
+      document.getElementById('modalTotal').innerText = '₹0';
+      return;
     }
-    return true;
-  } catch (error) {
-    console.error('dbInsert failed:', error);
-    throw error;
-  }
-}
-
-async function dbPing() {
-  try {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/orders?select=id&limit=1`, {
-      headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`
-      }
+    let html = '';
+    cart.forEach(cartItem => {
+      const p = products.find(pr => pr.id === cartItem.id);
+      if (!p) return;
+      html += `
+        <div class="cart-item">
+          <img src="${p.image_url || 'https://placehold.co/200x200/6f4e2e/white?text=Mushroom'}" style="width:48px;height:48px;border-radius:12px;object-fit:cover">
+          <div style="flex:1"><strong>${p.name}</strong><br>₹${p.price}</div>
+          <div class="qty-control">
+            <button class="qty-btn" data-id="${p.id}" data-delta="-1">-</button>
+            <span>${cartItem.qty}</span>
+            <button class="qty-btn" data-id="${p.id}" data-delta="1">+</button>
+            <button class="remove-item" data-id="${p.id}" style="background:none;border:none;margin-left:6px;">🗑️</button>
+          </div>
+        </div>
+      `;
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
-    return true;
-  } catch (error) {
-    console.warn('dbPing error:', error);
-    throw error;
+    container.innerHTML = html;
+    document.getElementById('modalTotal').innerHTML = `₹${getCartTotal()}`;
+    document.getElementById('proceedCheckoutBtn').disabled = cart.length === 0;
+    // attach events
+    document.querySelectorAll('.qty-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.dataset.id);
+        const delta = parseInt(btn.dataset.delta);
+        const item = cart.find(i => i.id === id);
+        if (item) {
+          item.qty += delta;
+          if (item.qty <= 0) cart = cart.filter(i => i.id !== id);
+          updateCartCount();
+          renderCartModal();
+          renderAllProductUI(); // refresh "in cart" badges on shop
+        }
+      });
+    });
+    document.querySelectorAll('.remove-item').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const id = parseInt(btn.dataset.id);
+        cart = cart.filter(i => i.id !== id);
+        updateCartCount();
+        renderCartModal();
+        renderAllProductUI();
+      });
+    });
   }
-}
 
-// ════════════════════════════════════════════════════════
-// WHATSAPP NUMBER — REPLACE WITH YOUR OWN (10 digits, no spaces)
-// ════════════════════════════════════════════════════════
-const WA_NUM = '919876543210';   // e.g. '919123456789'
-
-// ════════════════════════════════════════════════════════
-// PRODUCTS
-// ════════════════════════════════════════════════════════
-const PRODUCTS = [
-  {id:1, name:'Shiitake Mushrooms',  tag:'Gourmet',    icon:'🍄', price:299,  unit:'250g',      desc:'Rich, smoky flavour with meaty texture. Perfect for stir-fries, soups, and risottos.'},
-  {id:2, name:'Oyster Mushrooms',    tag:'Farm Fresh',  icon:'🌾', price:199,  unit:'250g',      desc:'Delicate, velvety mushrooms with a subtle anise aroma. Great sautéed in butter.'},
-  {id:3, name:"Lion's Mane",         tag:'Medicinal',   icon:'🦁', price:599,  unit:'200g',      desc:'Rare brain-boosting fungus with a lobster-like taste and impressive health properties.'},
-  {id:4, name:'Reishi Mushroom',     tag:'Medicinal',   icon:'🌿', price:849,  unit:'100g',      desc:'The "mushroom of immortality". Dried slices for powerful immune-boosting teas.'},
-  {id:5, name:'Button Mushrooms',    tag:'Everyday',    icon:'⚪', price:99,   unit:'500g',      desc:'Classic versatile mushrooms. Great in curries, pizzas, pastas, and everything in between.'},
-  {id:6, name:'Porcini Mushrooms',   tag:'Premium',     icon:'🤎', price:1299, unit:'50g dried', desc:'Deeply aromatic dried porcini — a chef\'s secret weapon for rich, deep sauces.'},
-  {id:7, name:'Chaga Powder',        tag:'Superfood',   icon:'⚫', price:699,  unit:'100g',      desc:'Cold-extracted chaga powder — earthy, rich, packed with antioxidants for daily wellness.'},
-  {id:8, name:'Pink Oyster',         tag:'Rare',        icon:'🩷', price:349,  unit:'200g',      desc:'Strikingly beautiful pink mushrooms with bold, savoury bacon-like taste when cooked hot.'},
-];
-
-// ════════════════════════════════════════════════════════
-// STATE
-// ════════════════════════════════════════════════════════
-let cart = [], step = 1, payment = 'cod', waUrl = '';
-
-// ════════════════════════════════════════════════════════
-// DB CONNECTION STATUS
-// ════════════════════════════════════════════════════════
-async function pingDB() {
-  const dot   = document.getElementById('dbDot');
-  const label = document.getElementById('dbLabel');
-  try {
-    await dbPing();
-    dot.className     = 'db-dot connected';
-    label.textContent = 'DB Live ✓';
-  } catch(e) {
-    dot.className     = 'db-dot error';
-    label.textContent = 'DB Error';
-    console.warn('DB connection failed. Check that:',
-      '\n- Table "orders" exists (run SQL above)',
-      '\n- RLS policy allows anon inserts',
-      '\n- You are not using file:// (use a local server)');
+  function renderAllProductUI() {
+    renderFeatured();
+    renderShopGrid();
+    if (document.querySelector('#shopGrid')) updateCartBadges();
   }
-}
 
-// ════════════════════════════════════════════════════════
-// RENDER PRODUCTS
-// ════════════════════════════════════════════════════════
-function renderProducts() {
-  document.getElementById('productGrid').innerHTML = PRODUCTS.map((p,i) => `
-    <div class="product-card" id="pc-${p.id}" style="animation-delay:${i*.07}s">
-      <div class="in-cart-badge" id="ib-${p.id}">In Cart</div>
-      <div class="product-img">${p.icon}</div>
-      <div class="product-body">
-        <span class="product-tag">${p.tag}</span>
-        <div class="product-name">${p.name}</div>
-        <div class="product-desc">${p.desc}</div>
-        <div class="product-footer">
-          <div class="product-price">₹${p.price} <small>/ ${p.unit}</small></div>
-          <button class="add-btn" id="ab-${p.id}" onclick="addItem(${p.id})">+ Add</button>
+  function renderFeatured() {
+    const featuredGrid = document.getElementById('featuredGrid');
+    if (!featuredGrid) return;
+    const featuredProds = products.filter(p => p.featured).slice(0, 4);
+    if (featuredProds.length === 0 && products.length) featuredProds.push(...products.slice(0,4));
+    featuredGrid.innerHTML = featuredProds.map(prod => productCardHTML(prod)).join('');
+    attachAddEvents();
+  }
+
+  function renderShopGrid(filterCategory = 'all') {
+    const container = document.getElementById('shopGrid');
+    if (!container) return;
+    let filtered = filterCategory === 'all' ? products : products.filter(p => p.category === filterCategory);
+    container.innerHTML = filtered.map(prod => productCardHTML(prod)).join('');
+    attachAddEvents();
+  }
+
+  function productCardHTML(prod) {
+    const inCartQty = cart.find(i => i.id === prod.id)?.qty || 0;
+    return `
+      <div class="product-card" data-id="${prod.id}">
+        <div class="product-img" style="background-image: url('${prod.image_url || 'https://placehold.co/400x300/7c5e3a/white?text=Mushroom'}'); background-size:cover;">
+          <div class="product-badge">${prod.tag || 'Organic'}</div>
+        </div>
+        <div class="product-info">
+          <h3>${prod.name}</h3>
+          <div class="product-price">₹${prod.price} <span style="font-size:0.75rem;">/${prod.unit || '250g'}</span></div>
+          <p style="font-size:0.8rem; color:#6b5a48;">${prod.description?.substring(0,70)}</p>
+          <button class="add-to-cart-btn" data-id="${prod.id}">${inCartQty > 0 ? `➕ Add More (${inCartQty})` : 'Add to Cart'}</button>
         </div>
       </div>
-    </div>`).join('');
-}
-
-function syncCard(id) {
-  const it  = cart.find(c=>c.id===id);
-  const pc  = document.getElementById(`pc-${id}`);
-  const ib  = document.getElementById(`ib-${id}`);
-  const ab  = document.getElementById(`ab-${id}`);
-  if (!pc) return;
-  if (it && it.qty > 0) {
-    pc.classList.add('has-items');
-    ib.textContent = `In Cart (${it.qty})`;
-    ab.textContent = '+ Add More';
-  } else {
-    pc.classList.remove('has-items');
-    ib.textContent = 'In Cart';
-    ab.textContent = '+ Add';
+    `;
   }
-}
 
-// ════════════════════════════════════════════════════════
-// CART
-// ════════════════════════════════════════════════════════
-function addItem(id) {
-  const p = PRODUCTS.find(x=>x.id===id);
-  const e = cart.find(x=>x.id===id);
-  if (e) e.qty++; else cart.push({...p, qty:1});
-  updateCount(); syncCard(id);
-  toast(`${p.icon} ${p.name} added to cart!`, 'success');
-}
-
-function updateCount() {
-  document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
-}
-
-function total() { return cart.reduce((s,i)=>s+i.price*i.qty,0); }
-
-function renderCart() {
-  const el  = document.getElementById('cartItems');
-  const tot = document.getElementById('cartTotal');
-  const btn = document.getElementById('proceedBtn');
-  if (!cart.length) {
-    el.innerHTML = `<div class="cart-empty">🍄<br>Your cart is empty.<br>Add some mushrooms!</div>`;
-    tot.style.display='none'; btn.disabled=true; return;
-  }
-  el.innerHTML = cart.map(it=>`
-    <div class="cart-item">
-      <div class="cart-item-icon">${it.icon}</div>
-      <div class="cart-item-info"><strong>${it.name}</strong><br><span>₹${it.price} / ${it.unit}</span></div>
-      <div class="cart-item-qty">
-        <button class="qty-btn" onclick="chQty(${it.id},-1)">−</button>
-        <span>${it.qty}</span>
-        <button class="qty-btn" onclick="chQty(${it.id},1)">+</button>
-      </div>
-      <div class="item-price">₹${it.price*it.qty}</div>
-      <button class="remove-btn" onclick="rmItem(${it.id})">✕</button>
-    </div>`).join('');
-  tot.style.display='flex';
-  document.getElementById('totalAmount').textContent=`₹${total()}`;
-  btn.disabled=false;
-}
-
-function chQty(id,d) {
-  const it=cart.find(c=>c.id===id); if(!it) return;
-  it.qty+=d; if(it.qty<=0) cart=cart.filter(c=>c.id!==id);
-  updateCount(); syncCard(id); renderCart();
-}
-
-function rmItem(id) {
-  cart=cart.filter(c=>c.id!==id); updateCount(); syncCard(id); renderCart();
-}
-
-// ════════════════════════════════════════════════════════
-// MODAL
-// ════════════════════════════════════════════════════════
-function openCart() {
-  document.getElementById('cartView').style.display='block';
-  document.getElementById('checkoutView').style.display='none';
-  renderCart();
-  document.getElementById('overlay').classList.add('open');
-  document.body.style.overflow='hidden';
-}
-function closeModal() {
-  document.getElementById('overlay').classList.remove('open');
-  document.body.style.overflow='';
-}
-function handleOverlayClick(e) { if(e.target===document.getElementById('overlay')) closeModal(); }
-function startCheckout() {
-  document.getElementById('cartView').style.display='none';
-  document.getElementById('checkoutView').style.display='block';
-  goStep(1);
-}
-function closeCheckout() {
-  document.getElementById('cartView').style.display='block';
-  document.getElementById('checkoutView').style.display='none';
-  renderCart();
-}
-
-// ════════════════════════════════════════════════════════
-// STEP NAVIGATION
-// ════════════════════════════════════════════════════════
-function goStep(n) {
-  if (n > step) {
-    if (step===1 && n===2) {
-      if (!v('fname')||!v('fphone')) { toast('⚠️ Please enter name and WhatsApp number'); return; }
-    }
-    if (step===2 && n===3) {
-      if (!v('fstreet')||!v('fcity')||!v('fpin')) { toast('⚠️ Please fill all address fields'); return; }
-    }
-    if (step===3 && n===4) buildReview();
-  }
-  [1,2,3,4,5].forEach(i=>{
-    document.getElementById(`step${i}`).classList.remove('active');
-    const t=document.getElementById(`tab${i}`); if(t) t.classList.remove('active','done');
-  });
-  document.getElementById(`step${n}`).classList.add('active');
-  step=n;
-  [1,2,3,4].forEach(i=>{
-    const t=document.getElementById(`tab${i}`); if(!t) return;
-    if(i<n) t.classList.add('done'); else if(i===n) t.classList.add('active');
-  });
-}
-
-function v(id) { return document.getElementById(id).value.trim(); }
-
-function buildReview() {
-  document.getElementById('reviewItems').innerHTML = cart.map(i=>`
-    <div class="summary-item"><span>${i.icon} ${i.name} × ${i.qty}</span><span>₹${i.price*i.qty}</span></div>`).join('');
-  document.getElementById('reviewTotal').textContent=`₹${total()}`;
-  const pl={cod:'Cash on Delivery',upi:'UPI / Bank Transfer',wallet:'Paytm / PhonePe'};
-  document.getElementById('reviewDetails').innerHTML=`
-    <b>Name:</b> ${v('fname')}<br>
-    <b>Phone:</b> ${v('fphone')}<br>
-    ${v('femail')?`<b>Email:</b> ${v('femail')}<br>`:''}
-    <b>Address:</b> ${v('fstreet')}, ${v('fcity')} - ${v('fpin')}<br>
-    ${v('fnotes')?`<b>Notes:</b> ${v('fnotes')}<br>`:''}
-    <b>Payment:</b> ${pl[payment]}`;
-}
-
-function selectPayment(val) {
-  payment=val;
-  ['cod','upi','wallet'].forEach(k=>document.getElementById(`pay-${k}`).classList.toggle('selected',k===val));
-}
-
-// ════════════════════════════════════════════════════════
-// PLACE ORDER — Saves to Supabase + opens WhatsApp
-// ════════════════════════════════════════════════════════
-async function placeOrder() {
-  const btn=document.getElementById('placeOrderBtn');
-  btn.disabled=true; btn.classList.add('loading');
-
-  const orderId='MM'+Date.now().toString().slice(-6);
-  const pl={cod:'Cash on Delivery',upi:'UPI / Bank Transfer',wallet:'Paytm / PhonePe'};
-
-  // 1 — Save to Supabase
-  let saved = false;
-  let dbErrorMessage = '';
-  try {
-    await dbInsert('orders', {
-      order_id:       orderId,
-      customer_name:  v('fname'),
-      phone:          v('fphone'),
-      email:          v('femail') || null,
-      address:        v('fstreet'),
-      city:           v('fcity'),
-      pin:            v('fpin'),
-      notes:          v('fnotes') || null,
-      items:          cart.map(i=>({id:i.id, name:i.name, icon:i.icon, qty:i.qty, price:i.price, unit:i.unit})),
-      total:          total(),
-      payment_method: pl[payment],
-      status:         'pending'
+  function attachAddEvents() {
+    document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
+      btn.removeEventListener('click', window._addHandler);
+      const handler = (e) => {
+        e.stopPropagation();
+        const id = parseInt(btn.dataset.id);
+        addToCart(id);
+        renderAllProductUI();
+      };
+      btn.addEventListener('click', handler);
+      window._addHandler = handler;
     });
-    saved = true;
-  } catch(err) {
-    console.error('Supabase insert failed:', err);
-    dbErrorMessage = err.message;
   }
 
-  // 2 — Build WhatsApp message
-  const lines=cart.map(i=>`  • ${i.icon} ${i.name} (${i.unit}) × ${i.qty} = ₹${i.price*i.qty}`).join('\n');
-  const msg=[
-    `🍄 *New Order — MycoMarket*`,
-    `━━━━━━━━━━━━━━━━━━━━`,
-    `*Order ID:* ${orderId}`,
-    `*DB Status:* ${saved?'✅ Saved':'⚠️ Not saved'}`,
-    ``,`*👤 Customer*`,
-    `Name: ${v('fname')}`,`Phone: ${v('fphone')}`,
-    v('femail')?`Email: ${v('femail')}`:null,
-    ``,`*📦 Items*`,lines,
-    ``,`*💰 Total: ₹${total()}*`,
-    ``,`*📍 Address*`,
-    `${v('fstreet')}, ${v('fcity')} - ${v('fpin')}`,
-    v('fnotes')?`Notes: ${v('fnotes')}`:null,
-    ``,`*💳 Payment:* ${pl[payment]}`,
-    `━━━━━━━━━━━━━━━━━━━━`,
-    `Please confirm. Thank you! 🙏`
-  ].filter(l=>l!==null).join('\n');
-
-  waUrl=`https://wa.me/${WA_NUM}?text=${encodeURIComponent(msg)}`;
-
-  btn.disabled=false; btn.classList.remove('loading');
-
-  // 3 — Show success
-  goStep(5);
-  document.getElementById('openWhatsApp').onclick=()=>window.open(waUrl,'_blank');
-  document.getElementById('orderIdText').textContent=`Order ID: ${orderId}`;
-  const badge=document.getElementById('dbSavedBadge');
-  badge.style.display='inline-block';
-
-  if (saved) {
-    badge.textContent = '✅ Saved to database in real time';
-    badge.style.background = '#e8f5e9';
-    badge.style.color = '#2e7d32';
-    toast('✅ Order saved to database!', 'success');
-  } else {
-    badge.textContent = `⚠️ DB save failed — WhatsApp order still sent (${dbErrorMessage})`;
-    badge.style.background = '#fff3e0';
-    badge.style.color = '#e65100';
-    toast('⚠️ DB failed — order sent via WhatsApp', 'error');
+  function updateCartBadges() {
+    // just re-run to reflect in-shop counts
   }
-}
 
-// ════════════════════════════════════════════════════════
-// RESET
-// ════════════════════════════════════════════════════════
-function resetAll() {
-  cart=[]; updateCount(); step=1; payment='cod';
-  PRODUCTS.forEach(p=>syncCard(p.id));
-  ['fname','fphone','femail','fstreet','fcity','fpin','fnotes'].forEach(id=>document.getElementById(id).value='');
-  selectPayment('cod');
-  document.getElementById('dbSavedBadge').style.display='none';
-  closeModal();
-}
+  // ========== CHECKOUT MULTISTEP ==========
+  function openCheckoutModal() {
+    if (cart.length === 0) return toast('Cart empty', true);
+    currentStep = 1;
+    paymentMethod = 'cod';
+    formData = { name: '', phone: '', email: '', address: '', city: '', pincode: '', notes: '' };
+    renderCheckoutStep();
+    document.getElementById('checkoutModal').classList.add('open');
+  }
 
-// ════════════════════════════════════════════════════════
-// TOAST
-// ════════════════════════════════════════════════════════
-function toast(msg, type='') {
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.className='toast'+(type?' '+type:'');
-  t.classList.add('show');
-  clearTimeout(t._t);
-  t._t=setTimeout(()=>t.classList.remove('show'),2800);
-}
+  function renderCheckoutStep() {
+    const stepsHtml = `<div style="display:flex; gap:8px; margin:20px 0;">
+      <div class="step-indicator ${currentStep>=1?'active':''}" style="flex:1; text-align:center;">1. Info</div>
+      <div class="step-indicator ${currentStep>=2?'active':''}" style="flex:1; text-align:center;">2. Address</div>
+      <div class="step-indicator ${currentStep>=3?'active':''}" style="flex:1; text-align:center;">3. Payment</div>
+      <div class="step-indicator ${currentStep>=4?'active':''}" style="flex:1; text-align:center;">4. Review</div>
+    </div>`;
+    let content = '';
+    if (currentStep === 1) {
+      content = `<div><input class="form-input" id="checkoutName" placeholder="Full Name *" value="${formData.name}"><input class="form-input" id="checkoutPhone" placeholder="WhatsApp Number *" value="${formData.phone}"><input class="form-input" id="checkoutEmail" placeholder="Email (optional)" value="${formData.email}"><button id="nextStep1" class="btn-primary" style="width:100%; margin-top:16px;">Next →</button></div>`;
+    } else if (currentStep === 2) {
+      content = `<div><input class="form-input" id="checkoutAddress" placeholder="Street Address *" value="${formData.address}"><input class="form-input" id="checkoutCity" placeholder="City *" value="${formData.city}"><input class="form-input" id="checkoutPincode" placeholder="PIN Code *" value="${formData.pincode}"><textarea class="form-input" id="checkoutNotes" rows="2" placeholder="Delivery notes">${formData.notes}</textarea><button id="nextStep2" class="btn-primary" style="width:100%; margin-top:16px;">Next →</button></div>`;
+    } else if (currentStep === 3) {
+      content = `<div><div class="payment-option" data-pay="cod" style="padding:12px; border:1px solid #ddd; border-radius:24px; margin:8px 0;"><input type="radio" name="pay" value="cod" ${paymentMethod==='cod'?'checked':''}> Cash on Delivery</div><div class="payment-option" data-pay="upi" style="padding:12px; border:1px solid #ddd; border-radius:24px; margin:8px 0;"><input type="radio" name="pay" value="upi" ${paymentMethod==='upi'?'checked':''}> UPI / QR on WhatsApp</div><button id="nextStep3" class="btn-primary" style="width:100%; margin-top:16px;">Review Order →</button></div>`;
+    } else if (currentStep === 4) {
+      const itemsHtml = cart.map(item => {
+        const p = products.find(pr=>pr.id===item.id);
+        return `<div>🍄 ${p?.name} x${item.qty} = ₹${p?.price * item.qty}</div>`;
+      }).join('');
+      content = `<div><strong>Order Summary</strong><div>${itemsHtml}</div><div><strong>Total: ₹${getCartTotal()}</strong></div><div><strong>Customer:</strong> ${formData.name} | ${formData.phone}</div><div><strong>Address:</strong> ${formData.address}, ${formData.city} - ${formData.pincode}</div><div><strong>Payment:</strong> ${paymentMethod==='cod'?'COD':'UPI/Online'}</div><button id="finalPlaceOrder" class="whatsapp-btn">📲 Confirm & Send WhatsApp</button><button id="backStep3" style="margin-top:8px; background:#eee; width:100%; padding:8px; border:none;">Back</button></div>`;
+    }
+    document.getElementById('checkoutContent').innerHTML = stepsHtml + content;
+    // attach events
+    if (currentStep === 1) document.getElementById('nextStep1')?.addEventListener('click', () => { saveStep1(); currentStep=2; renderCheckoutStep(); });
+    if (currentStep === 2) document.getElementById('nextStep2')?.addEventListener('click', () => { saveStep2(); currentStep=3; renderCheckoutStep(); });
+    if (currentStep === 3) {
+      document.querySelectorAll('.payment-option').forEach(opt => {
+        opt.addEventListener('click', () => {
+          const val = opt.dataset.pay;
+          paymentMethod = val;
+          renderCheckoutStep();
+        });
+      });
+      document.getElementById('nextStep3')?.addEventListener('click', () => { currentStep=4; renderCheckoutStep(); });
+    }
+    if (currentStep === 4) {
+      document.getElementById('finalPlaceOrder')?.addEventListener('click', finalizeOrder);
+      document.getElementById('backStep3')?.addEventListener('click', () => { currentStep=3; renderCheckoutStep(); });
+    }
+  }
 
-// ════════════════════════════════════════════════════════
-// INIT
-// ════════════════════════════════════════════════════════
-renderProducts();
-pingDB();
+  function saveStep1() {
+    formData.name = document.getElementById('checkoutName')?.value;
+    formData.phone = document.getElementById('checkoutPhone')?.value;
+    formData.email = document.getElementById('checkoutEmail')?.value;
+    if (!formData.name || !formData.phone) toast('Name and phone required', true);
+  }
+  function saveStep2() {
+    formData.address = document.getElementById('checkoutAddress')?.value;
+    formData.city = document.getElementById('checkoutCity')?.value;
+    formData.pincode = document.getElementById('checkoutPincode')?.value;
+    formData.notes = document.getElementById('checkoutNotes')?.value;
+    if (!formData.address || !formData.city || !formData.pincode) toast('Address required', true);
+  }
+
+  async function finalizeOrder() {
+    const orderId = 'MM' + Date.now().toString().slice(-6);
+    const orderItems = cart.map(item => {
+      const prod = products.find(p=>p.id===item.id);
+      return { id: item.id, name: prod.name, qty: item.qty, price: prod.price, unit: prod.unit };
+    });
+    const orderPayload = {
+      order_id: orderId,
+      customer_name: formData.name,
+      phone: formData.phone,
+      email: formData.email || null,
+      address: formData.address,
+      city: formData.city,
+      pin: formData.pincode,
+      notes: formData.notes,
+      items: orderItems,
+      total: getCartTotal(),
+      payment_method: paymentMethod === 'cod' ? 'Cash on Delivery' : 'UPI / Digital',
+      status: 'pending'
+    };
+    let dbSaved = false;
+    try {
+      await insertOrder(orderPayload);
+      dbSaved = true;
+      toast('✅ Order saved to database!');
+    } catch(err) { console.error(err); toast('⚠️ DB error but WhatsApp will be sent', true); }
+    // whatsapp msg
+    const itemLines = orderItems.map(i => `🍄 ${i.name} x${i.qty} = ₹${i.price*i.qty}`).join('\n');
+    const msg = `🍄 *New Order MycoMarket*%0AOrder: ${orderId}%0AName: ${formData.name}%0APhone: ${formData.phone}%0A${itemLines}%0ATotal: ₹${getCartTotal()}%0AAddress: ${formData.address}, ${formData.city} - ${formData.pincode}%0APayment: ${paymentMethod}%0ADB: ${dbSaved ? '✅Saved' : '⚠️Retry'}%0AThank you!`;
+    window.open(`https://wa.me/${WA_NUM}?text=${msg}`, '_blank');
+    // reset cart
+    cart = [];
+    updateCartCount();
+    document.getElementById('checkoutModal').classList.remove('open');
+    document.getElementById('cartModal').classList.remove('open');
+    toast('🎉 Order placed! WhatsApp sent');
+    renderAllProductUI();
+  }
+
+  function toast(msg, isError = false) {
+    const t = document.getElementById('toastMsg');
+    t.innerText = msg;
+    t.style.background = isError ? '#c17b4c' : '#2c2c2c';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  async function checkDBConnection() {
+    try {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/orders?limit=1`, {
+        headers: { apikey: SUPABASE_KEY, Authorization: `Bearer ${SUPABASE_KEY}` }
+      });
+      if (res.ok) {
+        document.getElementById('dbStatusDot').classList.add('live');
+        document.getElementById('dbStatusText').innerText = 'Live';
+      } else throw new Error();
+    } catch(e) {
+      document.getElementById('dbStatusText').innerText = 'Offline';
+    }
+  }
+
+  // Router
+  function navigate(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
+    document.getElementById(`page-${pageId}`).classList.add('active-page');
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    document.querySelector(`[data-page="${pageId}"]`).classList.add('active');
+    if (pageId === 'shop') renderShopGrid();
+    if (pageId === 'home') renderFeatured();
+  }
+
+  // Init
+  window.addEventListener('DOMContentLoaded', async () => {
+    await fetchProducts();
+    checkDBConnection();
+    renderCartModal();
+    // UI listeners
+    document.getElementById('heroShopBtn')?.addEventListener('click', () => navigate('shop'));
+    document.getElementById('cartIconBtn')?.addEventListener('click', () => { renderCartModal(); document.getElementById('cartModal').classList.add('open'); });
+    document.getElementById('closeCartBtn')?.addEventListener('click', () => document.getElementById('cartModal').classList.remove('open'));
+    document.getElementById('proceedCheckoutBtn')?.addEventListener('click', () => { document.getElementById('cartModal').classList.remove('open'); openCheckoutModal(); });
+    document.getElementById('closeCheckoutBtn')?.addEventListener('click', () => document.getElementById('checkoutModal').classList.remove('open'));
+    document.getElementById('waContactBtn')?.addEventListener('click', () => window.open(`https://wa.me/${WA_NUM}`, '_blank'));
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        navigate(link.dataset.page);
+      });
+    });
+    // filter categories
+    const cats = [...new Set(products.map(p => p.category).filter(Boolean))];
+    const filterDiv = document.getElementById('filterBar');
+    if (filterDiv && cats.length) {
+      filterDiv.innerHTML = `<div class="filter-chip active" data-cat="all">All</div>${cats.map(c => `<div class="filter-chip" data-cat="${c}">${c}</div>`).join('')}`;
+      filterDiv.querySelectorAll('.filter-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          filterDiv.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          renderShopGrid(chip.dataset.cat);
+        });
+      });
+    }
+  });
 </script>
 
-<!-- 
-  🛠️ Setup checklist:
-  1. Replace WA_NUM with your WhatsApp number (e.g., '919876543210').
-  2. In Supabase, create the "orders" table using the SQL above.
-  3. Open this page using a local server (Live Server, etc.) – not directly as file://
-  4. Check the browser console for any errors.
+<style>
+  .form-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1.5px solid #ddd;
+    border-radius: 20px;
+    font-family: inherit;
+  }
+  .step-indicator {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 6px;
+    background: #f0ebe0;
+    border-radius: 40px;
+  }
+  .step-indicator.active {
+    background: var(--mushroom);
+    color: white;
+  }
+  .payment-option { cursor: pointer; }
+  .remove-item { cursor: pointer; opacity: 0.6; }
+  .remove-item:hover { opacity: 1; color: var(--terracotta); }
+</style>
+
+<!-- SQL INSTRUCTIONS (Products table required) 
+  CREATE TABLE products (
+    id BIGSERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    description TEXT,
+    price NUMERIC,
+    unit TEXT,
+    tag TEXT,
+    image_url TEXT,
+    category TEXT,
+    featured BOOLEAN DEFAULT false
+  );
+  INSERT INTO products (name, description, price, unit, tag, image_url, category, featured) VALUES
+  ('Shiitake Mushrooms', 'Umami-rich gourmet mushroom', 299, '250g', 'Gourmet', 'https://images.unsplash.com/photo-1589125702873-8f8c1fa6640a?w=400', 'Fresh', true),
+  ('Oyster Mushrooms', 'Delicate, velvety texture', 199, '250g', 'Farm Fresh', 'https://images.unsplash.com/photo-1603199506016-b9a594b5b3a2?w=400', 'Fresh', true),
+  ('Lion''s Mane', 'Brain-boosting medicinal', 599, '200g', 'Medicinal', 'https://images.unsplash.com/photo-1616880725301-7d1b8b2ef93b?w=400', 'Medicinal', true),
+  ('Reishi Slices', 'Immune support tea', 849, '100g', 'Wellness', 'https://images.unsplash.com/photo-1610464645073-5f2a5e69bf14?w=400', 'Dried', true),
+  ('Button Mushrooms', 'Classic everyday', 99, '500g', 'Value', 'https://images.unsplash.com/photo-1595941069915-4ebc5217a6a8?w=400', 'Fresh', false),
+  ('Porcini Dried', 'Chef''s secret', 1299, '50g', 'Premium', 'https://images.unsplash.com/photo-1595343152676-8ed7f2d34265?w=400', 'Dried', false),
+  ('Chaga Powder', 'Antioxidant superfood', 699, '100g', 'Superfood', 'https://images.unsplash.com/photo-1615323129830-2c6eb3c4367c?w=400', 'Powder', false),
+  ('Pink Oyster', 'Bacon-like flavour', 349, '200g', 'Rare', 'https://images.unsplash.com/photo-1610440564652-f2791a6a0d33?w=400', 'Fresh', false);
 -->
 </body>
 </html>
